@@ -28,29 +28,3 @@ A conversational AI travel planner that helps users design smart, personalized t
 4. **Structured Output** – Generates a clean, structured trip plan as a JSON object
 
 ---
-
-## 🛠️ Tech Stack
-
-| Component        | Tool                     |
-| ---------------- | ------------------------ |
-| LLM              | OpenAI GPT-4o / GPT-4    |
-| Vector DB        | FAISS or ChromaDB        |
-| RAG Framework    | LangChain                |
-| Function Calling | OpenAI Function Calling  |
-| Weather API      | OpenWeatherMap           |
-| Backend          | Python                   |
-| UI (Optional)    | Streamlit / Web frontend |
-
----
-
-## 📁 Project Structure
-
-travel-assistant/
-├── main.py # Core logic
-├── retriever.py # RAG implementation (vector store)
-├── functions.py # Function calling (weather API)
-├── data/
-│ └── guides/ # Markdown or PDF travel guides
-├── .env # API keys and secrets
-├── requirements.txt
-└── README.md
