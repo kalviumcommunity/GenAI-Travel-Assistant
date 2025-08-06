@@ -1,30 +1,56 @@
-# 🧳 GenAI Travel Assistant
+# GenAI Travel Assistant
 
-A conversational AI travel planner that helps users design smart, personalized trips using natural language. It leverages the power of LLMs (GPT-4), Retrieval-Augmented Generation (RAG), structured output, and function calling to create travel itineraries with real-time data like weather, budgets, and packing lists.
-
----
+A conversational assistant that helps users plan personalized trips based on interests, weather, and budget. The assistant answers natural language prompts, retrieves local travel guides, and returns structured trip plans.
 
 ## ✨ Features
 
-- 💬 **Natural Prompting**  
-  Ask questions like “Plan a budget 3-day trip to Goa in December” or “What should I pack for trekking in Himachal?”
+| Feature            | Description                                                                 |
+|--------------------|-----------------------------------------------------------------------------|
+| Prompting          | Users ask in natural language (e.g., "Plan a 3-day trip to Himachal with a low budget and snow activities") |
+| Retrieval (RAG)    | Retrieves travel guides (PDFs, text, markdown) using Retrieval-Augmented Generation |
+| Structured Output  | Returns trip plan as JSON: destination, activities, weather, packing list, estimated cost |
+| Function Calling   | Fetches real-time weather/location details via API calls                    |
 
-- 🔍 **RAG (Retrieval-Augmented Generation)**  
-  Retrieves travel info from locally stored guides using vector search (FAISS or ChromaDB)
+## 🛠️ Tech Stack
 
-- 📊 **Structured Output**  
-  Returns trip plan as a well-defined JSON object: destination, activities, weather, budget, packing list
+- **Language Model:** OpenAI GPT-4o / GPT-4 (function calling support)
+- **RAG:** LangChain + FAISS or ChromaDB
+- **Weather API:** OpenWeatherMap (Free tier)
+- **Server:** Python (Streamlit or FastAPI)
+- **Data:** Local markdown/PDF files on destinations
 
-- 🔧 **Function Calling**  
-  Calls external APIs (like OpenWeatherMap) to fetch live weather data for the destination
+## 🏗️ How It Works
 
----
+1. **User Prompt:** User describes their trip requirements in natural language.
+2. **RAG Retrieval:** System fetches relevant travel guides from local files.
+3. **Function Calling:** Calls weather API for real-time forecasts.
+4. **Structured Output:** Returns a detailed trip plan (destination, activities, weather, packing list, estimated cost).
 
-## 🧠 How It Works
+## 🚀 Example Prompt
 
-1. **Prompting** – User inputs a travel request
-2. **RAG** – Assistant searches relevant travel documents for context
-3. **Function Calling** – Gets real-time weather info using an external API
-4. **Structured Output** – Generates a clean, structured trip plan as a JSON object
+```
+Plan a 3-day trip to Himachal with a low budget and snow activities
+```
 
----
+## 📦 Output Example
+
+```json
+{
+    "destination": "Himachal Pradesh",
+    "activities": ["Skiing", "Snowboarding", "Local sightseeing"],
+    "weather": "Snowy, -2°C to 5°C",
+    "packing_list": ["Warm clothes", "Snow boots", "Gloves"],
+    "estimated_cost": "$150"
+}
+```
+
+
+
+
+
+
+
+
+
+
+
