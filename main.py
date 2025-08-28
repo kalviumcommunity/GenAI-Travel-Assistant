@@ -11,8 +11,8 @@ client = OpenAI(
     base_url="https://api.groq.com/openai/v1"
 )
 
-# Toggle between modes: "zero-shot", "one-shot", "multi-shot"
-PROMPT_MODE = "multi-shot"  # change to "zero-shot" or "one-shot" if needed
+# Toggle between modes: "zero-shot", "one-shot", "multi-shot", "dynamic"
+PROMPT_MODE = "dynamic" 
 
 def ask_travel_assistant(user_input):
     if PROMPT_MODE == "zero-shot":
@@ -52,6 +52,22 @@ def ask_travel_assistant(user_input):
         Day 4: Brooklyn Bridge walk and Dumbo area exploration.
         """
         prompt = f"{multi_shot_examples}\nUser: {user_input}\nAssistant:"
+
+    elif PROMPT_MODE == "dynamic":
+        # Dynamically adjust the prompt based on user input
+        if "budget" in user_input.lower():
+            dynamic_context = "Focus on cost-effective travel, budget stays, and cheap food options."
+        elif "luxury" in user_input.lower():
+            dynamic_context = "Focus on premium travel, 5-star hotels, fine dining, and exclusive experiences."
+        elif "family" in user_input.lower():
+            dynamic_context = "Focus on family-friendly activities, safe travel, and child-friendly attractions."
+        else:
+            dynamic_context = "Provide a general but helpful travel itinerary."
+
+        prompt = f"""
+        User: {user_input}
+        Assistant: Based on the request, {dynamic_context} Suggest a suitable travel itinerary with day-wise details.
+        """
 
     # API call
     response = client.chat.completions.create(
