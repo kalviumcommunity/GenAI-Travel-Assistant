@@ -10,12 +10,12 @@ client = OpenAI(
     base_url="https://api.groq.com/openai/v1"  # Groq's OpenAI-compatible endpoint
 )
 
-# ✅ Set the mode manually here
-MODE = "cot"   # Options: "zero-shot", "one-shot", "multi-shot", "dynamic", "cot"
+# ✅ Set the mode & temperature manually here
+MODE = "cot"            # Options: "zero-shot", "one-shot", "multi-shot", "dynamic", "cot"
+TEMPERATURE = 0.7       # 0.0 = deterministic, 1.0 = creative/random
 
 def build_messages(user_input: str, mode: str):
     """Return a messages[] array appropriate to the selected prompting mode."""
-    # Common system instruction
     system_msg = {
         "role": "system",
         "content": (
@@ -87,7 +87,6 @@ def build_messages(user_input: str, mode: str):
         return [system_msg, {"role": "user", "content": prompt}]
 
     if mode == "cot":
-        # Chain-of-Thought *style* prompting with concise rationale output only.
         cot_system = {
             "role": "system",
             "content": (
@@ -120,13 +119,14 @@ def ask_travel_assistant(user_input: str, mode: str):
     resp = client.chat.completions.create(
         model="llama3-70b-8192",
         messages=messages,
-        temperature=0.7,
+        temperature=TEMPERATURE, 
         max_tokens=700,
     )
     return resp.choices[0].message.content
 
 if __name__ == "__main__":
     print(f"🧳 Welcome to AI-Travel Assistant")
+    print(f"Mode = {MODE}, Temperature = {TEMPERATURE}\n")
     user_query = input("Ask your travel question: ")
     answer = ask_travel_assistant(user_query, MODE)
     print("\nAssistant:\n" + answer)
