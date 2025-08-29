@@ -10,9 +10,10 @@ client = OpenAI(
     base_url="https://api.groq.com/openai/v1"  # Groq's OpenAI-compatible endpoint
 )
 
-# ✅ Set the mode & temperature manually here
+# ✅ Set the mode, temperature, and top-k manually here
 MODE = "cot"            # Options: "zero-shot", "one-shot", "multi-shot", "dynamic", "cot"
 TEMPERATURE = 0.7       # 0.0 = deterministic, 1.0 = creative/random
+TOP_K = 1               # Limit sampling to top-k tokens (e.g., 5 most probable next tokens)
 
 def build_messages(user_input: str, mode: str):
     """Return a messages[] array appropriate to the selected prompting mode."""
@@ -119,14 +120,15 @@ def ask_travel_assistant(user_input: str, mode: str):
     resp = client.chat.completions.create(
         model="llama3-70b-8192",
         messages=messages,
-        temperature=TEMPERATURE, 
+        temperature=TEMPERATURE,
         max_tokens=700,
+        extra_body={"top_k": TOP_K}  # ✅ Add Top-k control here
     )
     return resp.choices[0].message.content
 
 if __name__ == "__main__":
     print(f"🧳 Welcome to AI-Travel Assistant")
-    print(f"Mode = {MODE}, Temperature = {TEMPERATURE}\n")
+    print(f"Mode = {MODE}, Temperature = {TEMPERATURE}, Top-k = {TOP_K}\n")
     user_query = input("Ask your travel question: ")
     answer = ask_travel_assistant(user_query, MODE)
     print("\nAssistant:\n" + answer)
